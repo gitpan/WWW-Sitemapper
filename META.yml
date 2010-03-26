@@ -1,5 +1,5 @@
 ---
-abstract: 'Create site map by scanning a web site.'
+abstract: 'Create text, html and xml sitemap by scanning a web site.'
 author:
   - 'Alex J. G. Burzyński <ajgb@cpan.org>'
 build_requires:
@@ -8,7 +8,9 @@ build_requires:
   LWP: 5.831
   Moose: 0.98
   MooseX::Types: 0.21
+  Search::Sitemap: 2.1
   Storable: 2.18
+  Template: 2.22
   Test::Exception: 0
   Test::More: 0
   Test::NoWarnings: 0
@@ -25,12 +27,13 @@ name: WWW-Sitemapper
 provides:
   WWW::Sitemapper:
     file: lib/WWW/Sitemapper.pm
-    version: 0.01
+    version: 0.02
   WWW::Sitemapper::Tree:
     file: lib/WWW/Sitemapper/Tree.pm
+    version: 0.02
   WWW::Sitemapper::Types:
     file: lib/WWW/Sitemapper/Types.pm
-    version: 0.01
+    version: 0.02
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+version: 0.02

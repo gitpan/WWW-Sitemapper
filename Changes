@@ -1,5 +1,9 @@
 Revision history for WWW-Sitemapper
 
+0.02    Fri Mar 26 20:46:11 2010
+        Add missing required modules into Build.PL.
+        Cleanup documentation.
+
 0.01    Fri Mar 26 15:53:10 2010
         First version released.
 

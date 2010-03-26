@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 103;
+use Test::More tests => 106;
 use Test::NoWarnings;
 use Test::Exception;
 
@@ -116,9 +116,6 @@ if ($is_test = fork ) {
     } "run() works";
 
     my $root = $mapper->tree;
-
-    use Data::Dumper;
-    $Data::Dumper::Indent=1;
 
     is_deeply(
         [ sort keys %{ $root->_dictionary } ],
@@ -468,13 +465,30 @@ if ($is_test = fork ) {
     } for sort { $$a->id cmp $$b->id } $mapper->tree->all_entries;
 
 
+    undef $mapper;
 
+    $mapper = MyWebSite::Map->new(
+        site => "${server_host}index.html",
+        status_storage => $STATUS_STORAGE_FILE,
+    );
 
-#    diag Dumper $child1; 
-#    diag Dumper $child1->nodes->[0]; 
+    lives_ok {
+        $mapper->restore_state();
+    } "restore_state() called successfully";
 
+    lives_ok {
+        $txt_sitemap = $mapper->txt_sitemap();
+    } "txt_sitemap() called successfully";
+    {
+        local $/;
+        open( FILE, "t/data/txt_sitemap.txt" )
+            or die "Cannot open txt_sitemap.txt: $!\n";
+        $_txt_sitemap = <FILE>;
+        close( FILE );
+    }
+    strip_host_from_sitemap( \$txt_sitemap );
+    is( $txt_sitemap, $_txt_sitemap, "txt_sitemap() is restored correctly" );
 
-#    diag Dumper $mapper;
 
 # test http server
 } else {

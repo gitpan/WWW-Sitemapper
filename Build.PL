@@ -20,6 +20,8 @@ my $builder = Module::Build->new(
         'LWP' => 5.831,
         'HTML::HeadParser' => 3.60,
         'DateTime' => 0.53,
+        'Template' => 2.22,
+        'Search::Sitemap' => 2.10,
     },
     add_to_cleanup      => [ 'WWW-Sitemapper-*' ],
     create_makefile_pl => 'traditional',

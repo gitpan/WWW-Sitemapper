@@ -7,10 +7,6 @@ package WWW::Sitemapper::Types;
 
 WWW::Sitemapper::Types - types used by L<WWW::Sitemapper>.
 
-=head1 VERSION
-
-Version 0.01
-
 =cut
 
 use strict;
@@ -19,7 +15,7 @@ use URI;
 use DateTime;
 use DateTime::Duration;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use MooseX::Types -declare => [qw(
     tURI

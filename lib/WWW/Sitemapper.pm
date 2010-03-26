@@ -5,11 +5,7 @@ package WWW::Sitemapper;
 
 =head1 NAME
 
-WWW::Sitemapper - Create site map by scanning a web site.
-
-=head1 VERSION
-
-Version 0.01
+WWW::Sitemapper - Create text, html and xml sitemap by scanning a web site.
 
 =cut
 
@@ -17,16 +13,18 @@ use Moose;
 use WWW::Sitemapper::Types qw( tURI tDateTime tDateTimeDuration );
 use WWW::Sitemapper::Tree;
 use URI;
+use DateTime;
+use DateTime::Duration;
 use WWW::Robot;
 use Storable qw( store retrieve );
 
 use base qw( MooseX::MethodAttributes::Inheritable );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
-WWW::Sitemapper - Create site map by scanning a web site.
+WWW::Sitemapper is meant to be subclassed by user:
 
     package MyWebSite::Map;
     use Moose;
@@ -68,18 +66,19 @@ WWW::Sitemapper - Create site map by scanning a web site.
         return 0;
     }
 
+    # you can add your own hooks as well
     sub run_till_first_auto_save : Hook('continue-test') {
         my $self = shift;
         my ($robot) = @_;
 
-        if ( $self->_run_started_time + $self->auto_save < DateTime->now ) {
+        if ( $self->run_started_time + $self->auto_save < DateTime->now ) {
             return 0;
         }
         return 1;
     }
 
 
-    # as this is your class you may define your own methods as well
+    # as this is your class feel free to define your own methods
     sub ping_google {
         my $self    = shift;
 
@@ -96,14 +95,14 @@ and then
 
     my $mapper = MyWebSite::Map->new(
         site => 'http://mywebsite.com/',
-        status_storage => 'sitemap.data.storable',
+        status_storage => 'sitemap.data',
         auto_save => 10,
     );
 
     $mapper->run;
 
 
-    open(HTML, ">./sitemap.html") or die ("Cannot create sitemap.html: $!");
+    open(HTML, ">sitemap.html") or die ("Cannot create sitemap.html: $!");
     print HTML $mapper->html_sitemap;
     close(HTML);
 
@@ -117,11 +116,11 @@ and then
     # call your own method
     $mapper->ping_google();
 
-and while mapper is still running take a peek what has been mapped
+and while mapper is still running take a peek what has been mapped so far
 
     my $mapper = MyWebSite::Map->new(
         site => 'http://mywebsite.com/',
-        status_storage => 'sitemap.data.storable',
+        status_storage => 'sitemap.data',
     );
 
     $mapper->restore_state();
@@ -135,6 +134,8 @@ and while mapper is still running take a peek what has been mapped
 
 Home page of the website to be mapped.
 
+Type: L<WWW::Sitemapper::Types/"tURI">.
+
 =cut
 
 has 'site' => (
@@ -147,6 +148,16 @@ has 'site' => (
 =head2 tree
 
 Tree structure of the web site.
+
+Type: L<WWW::Sitemapper::Tree> object.
+
+Note: each page is mapped only once, so if multiple pages are linking to the
+same page only the first will be counted as parent.
+
+Note: beware of pages serving same content under different URLs (eg. using
+different query string parameters) as it may lead to circular references.
+Besides this search engines will punish you for so called "duplicate content".
+Use your subroutine with C<Hook('follow-url-test')> to restrict access to those pages.
 
 =cut
 
@@ -173,19 +184,30 @@ sub _build_tree {
 
 L<WWW::Robot> configuration options.
 
+Type: C<HashRef>.
+
 You need to define in your subclass builder method I<_build_robot_config>
-which needs to return a hashref with at least one option:
+which needs to return a hashref.
+Most important options are:
 
 =over
 
 =item * EMAIL
 
-A valid email address which can be used to contact the Robot's owner, for
-example by someone who wishes to complain about the behavior of your robot.
+Your e-mail address - in case someone wishes to complain about the behaviour
+of your robot.
+
+B<mandatory>.
+
+=item * DELAY
+
+Delay between each request in minutes.
+
+Default: I<1>
 
 =back
 
-For other options please see to L<WWW::Robot/"ROBOT_ATTRIBUTES">
+For more details and other options please see L<WWW::Robot/"ROBOT_ATTRIBUTES">.
 
 =cut
 
@@ -210,7 +232,8 @@ sub _build__robot {
     my $self = shift;
     my %opts = (
         VERSION => $VERSION,
-        NAME => 'WWW::Sitemapper',
+        TRAVERSAL => 'breadth',
+        NAME => ref $self,
         %{$self->robot_config}
     );
     return WWW::Robot->new(
@@ -223,6 +246,8 @@ sub _build__robot {
 Status storage for saving the result of web crawl.
 If defined L<Storable> will be used to store the current state.
 
+Type: C<Str>.
+
 =cut
 
 has 'status_storage' => (
@@ -233,6 +258,8 @@ has 'status_storage' => (
 =head2 auto_save
 
 Auto save current status every N minutes (defaults to 0 - do not auto save).
+
+Type: L<WWW::Sitemapper::Types/"tDateTimeDuration">.
 
 Note: L<"status_storage"> has to be defined.
 
@@ -251,7 +278,16 @@ has '_last_saved_time' => (
     coerce => 1,
 );
 
-has '_run_started_time' => (
+=head2 run_started_time
+
+Time when L<"run"> was started.
+
+Type: L<WWW::Sitemapper::Types/"tDateTime">.
+
+=cut
+
+
+has 'run_started_time' => (
     is => 'rw',
     isa => tDateTime,
     coerce => 1,
@@ -262,7 +298,11 @@ has '_run_started_time' => (
 L<Template-Toolkit|Template> html sitemap template to be used by helper method
 L<"html_sitemap">.
 
-Default value for HTML sitemap template:
+Type: C<Str>.
+
+Can be overriden by definining C<_build_html_sitemap_template> in your subclass.
+
+Default value:
 
     <html>
     <head>
@@ -270,7 +310,7 @@ Default value for HTML sitemap template:
     </head>
     <body>
     <ul>
-    [%- INCLUDE branch node = node -%]
+    [%- INCLUDE branch node = root -%]
     </ul>
     </body>
     </html>
@@ -308,7 +348,7 @@ sub _build_html_sitemap_template {
 </head>
 <body>
 <ul>
-[%- INCLUDE branch node = node -%]
+[%- INCLUDE branch node = root -%]
 </ul>
 </body>
 </html>
@@ -338,21 +378,20 @@ EOT
 
     print $mapper->run();
 
-Creates a L<WWW::Robot> object and starts to map the L<"site">.
+Creates a L<WWW::Robot> object and starts to map the website specified by
+L<"site">.
 
-Scans your subclass for methods with :Hook(...) attributes to be added to
-robot object.
+Scans your subclass for methods with :Hook('name-of-the-hook') attributes to
+be added to robot object.
 
-Please see L<WWW::Robot/"SUPPORTED_HOOKS"> for full list.
+Please see L<WWW::Robot/"SUPPORTED_HOOKS"> for full list of supported hooks.
 
 =cut
 
 sub run {
     my $self = shift;
 
-    my $robot = $self->_robot;
-
-    $robot->addUrl( $self->site );
+    $self->_robot->addUrl( $self->site );
 
     for my $method ( $self->meta->get_all_methods_with_attributes ) {
         my $attrs = $method->attributes;
@@ -363,7 +402,7 @@ sub run {
             }
         }
         if ( my $hook_name = delete $attrs{Hook} ) {
-            $robot->addHook(
+            $self->_robot->addHook(
                 $hook_name,
                 sub {
                     $method->body->($self, @_),
@@ -373,14 +412,23 @@ sub run {
     }
 
     $self->_last_saved_time( DateTime->now );
-    $self->_run_started_time( DateTime->now );
+    $self->run_started_time( DateTime->now );
 
-    return $robot->run();
+    return $self->_robot->run();
 }
 
 =head2 txt_sitemap
 
     print $mapper->txt_sitemap();
+
+example output:
+
+    * http://mywebsite.com/
+      * http://mywebsite.com/page1.html
+        * http://mywebsite.com/page11.html
+        * http://mywebsite.com/page12.html
+      * http://mywebsite.com/page2.html
+
 
 Create plain text sitemap.
 
@@ -436,7 +484,8 @@ sub txt_sitemap {
 
 Create HTML sitemap using template defined in L<"html_sitemap_template">.
 
-Allows to specify L<Template> configuration options.
+Allows to specify Template-Toolkit configuration options, see
+L<Template/"CONFIGURATION_SUMMARY">.
 
 =cut
 
@@ -457,7 +506,7 @@ sub html_sitemap {
     no warnings 'recursion';
     $tt->process( \( $self->html_sitemap_template ),
         {
-            node => $self->tree,
+            root => $self->tree,
             site => $self->site,
         },
         \$html
@@ -493,10 +542,10 @@ Accepts following parameters:
         ],
     );
 
-Arrayref of regular expressions used to split the resulting sitemap based on
-the page location. If this option is supplied the L<"xml_sitemap"> will return
-an array of L<Search::Sitemap> objects plus one additional for any urls not
-matched by items provided.
+Arrayref of regular expressions used to split the final sitemap based on
+the page location - L<WWW::Sitemapper::Tree/loc>. If this option is supplied
+the L<"xml_sitemap"> will return an array of L<Search::Sitemap> objects plus
+one additional for any urls not matched by conditions provided.
 
 =item * priority
 
@@ -505,6 +554,7 @@ matched by items provided.
     );
 
 or
+
     my $sitemap = $mapper->xml_sitemap(
         priority => {
             '^/doc/' => '+0.2', # same as 0.7
@@ -521,6 +571,7 @@ Supports I<relative> values which will be added/subtracted to/from final
 priority.
 
 Final priority will be set to 0.0 if calculated one is negative.
+
 Final priority will be set to 1.0 if calculated one is higher then 1.0.
 
 Default priority is 0.5.
@@ -552,11 +603,17 @@ Valid values are:
 =over
 
 =item always
+
 =item hourly
+
 =item daily
+
 =item weekly
+
 =item monthly
+
 =item yearly
+
 =item never
 
 =back
@@ -749,23 +806,24 @@ sub xml_sitemap {
     return map { $maps[ $_ * 2 + 1 ] } 0 .. int(@maps/2) - 1;
 }
 
-=head1 PREDEFINED HOOKS
+=head1 HOOKED METHODS
 
 =head2 restore_state
 
 Restore state from L<"status_storage"> using L<Storable/"retrieve">.
 
-Uses L<WWW::Robot/"restore-state">.
+Loads into current object L<"tree"> and internal state of L<"robot">.
+
+Uses hook L<WWW::Robot/"restore-state">.
 
 =cut
 
 sub restore_state : Hook('restore-state') {
     my $self = shift;
-    my($robot) = @_;
 
     if ( $self->status_storage && -e $self->status_storage ) {
         my %state = %{ retrieve( $self->status_storage ) };
-        $robot->{$_} = $state{ROBOT}->{$_} for qw( URL_LIST SEEN_URL );
+        $self->_robot->{$_} = $state{ROBOT}->{$_} for qw( URL_LIST SEEN_URL );
         $self->tree( $state{TREE} );
 
         return 1;
@@ -776,9 +834,10 @@ sub restore_state : Hook('restore-state') {
 
 =head2 save_state
 
-Save state into L<"status_storage"> using L<Storable/"store">.
+Saves into L<"status_storage"> using L<Storable/"store"> current content of
+L<"tree"> and internal state of L<"robot">.
 
-Uses L<WWW::Robot/"save-state">.
+Uses hook L<WWW::Robot/"save-state">.
 
 =cut
 

@@ -7,21 +7,20 @@ package WWW::Sitemapper::Tree;
 
 WWW::Sitemapper::Tree - Tree structure of pages.
 
-=head1 VERSION
-
-Version 0.01
-
 =cut
-
 
 use Moose;
 use WWW::Sitemapper::Types qw( tDateTime );
+
+our $VERSION = '0.02';
 
 =head1 ATTRIBUTES
 
 =head2 id
 
 Unique id of the node.
+
+Type: C<Str>.
 
 =cut
 
@@ -36,6 +35,8 @@ has 'id' => (
 
 URI object for page. Represents the link found on the web site - before any
 redirections.
+
+Type: L<WWW::Sitemapper::Types/"tURI">.
 
 =cut
 
@@ -54,6 +55,8 @@ has '_base_uri' => (
 
 Title of page.
 
+Type: C<Str>.
+
 =cut
 
 has 'title' => (
@@ -65,6 +68,8 @@ has 'title' => (
 
 Value of Last-modified header.
 
+Type: L<WWW::Sitemapper::Types/"tDateTime">.
+
 =cut
 
 has 'last_modified' => (
@@ -75,8 +80,10 @@ has 'last_modified' => (
 
 =head2 nodes
 
-An array of all links found on the page - represented by
+An array of all mapped links found on the page - represented by
 L<WWW::Sitemapper::Tree>.
+
+Type: C<ArrayRef[>L<WWW::Sitemapper::Tree>C<]>.
 
 =cut
 
@@ -118,16 +125,17 @@ has '_redirects' => (
 
 =head2 find_node
 
-    my $map = MyWebSite::Map->new(
+    my $mapper = MyWebSite::Map->new(
         site => 'http://mywebsite.com/',
-        status_storage => 'sitemap.data.storable',
+        status_storage => 'sitemap.data',
     );
+    $mapper->restore_state();
 
-    my $node = $map->tree->find_node( $uri );
+    my $node = $mapper->tree->find_node( $uri );
 
 Searches the cache for a node with matching uri.
 
-Note: use it only at the root element.
+Note: use it only at the root element L<WWW::Sitemapper/"tree">.
 
 =cut
 
@@ -143,11 +151,11 @@ sub find_node {
 
 =head2 redirected_from
 
-    my $parent = $map->tree->redirected_from( $uri );
+    my $parent = $mapper->tree->redirected_from( $uri );
 
 Searches the redirects cache for a node with matching uri.
 
-Note: use it only at the root element.
+Note: use it only at the root element L<WWW::Sitemapper/"tree">.
 
 =cut
 
@@ -161,10 +169,7 @@ sub redirected_from {
     return;
 }
 
-
 =head2 add_node
-
-    my $parent = $map->tree->find_node( $parent_uri );
 
     my $child = $parent->add_node(
         WWW::Sitemapper::Tree->new(
@@ -172,12 +177,9 @@ sub redirected_from {
         )
     );
 
-Searches the cache for a node with matching uri.
-
-Note: use it only at the root element.
+Adds new node to C<$parent> object and returns child with id set.
 
 =cut
-
 
 sub add_node {
     my $self = shift;
@@ -191,9 +193,11 @@ sub add_node {
 }
 
 =head2 loc
+    
+    print $node->loc;
 
-URI object for page. Represents the base location of page - which takes into
-account any redirections.
+Represents the base location of page (which may be different from node
+L<"uri"> if there was a redirection).
 
 =cut
 
@@ -202,6 +206,15 @@ sub loc {
 
     return $self->_base_uri || $self->uri;
 }
+
+
+=head2 children
+
+    for my $child ( $node->children ) {
+        ...
+    }
+
+Returns all children of the node.
 
 
 =head1 AUTHOR
