@@ -10,9 +10,9 @@ WWW::Sitemapper::Tree - Tree structure of pages.
 =cut
 
 use Moose;
-use WWW::Sitemapper::Types qw( tDateTime );
+use WWW::Sitemapper::Types qw( tURI tDateTime );
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 ATTRIBUTES
 
@@ -20,7 +20,7 @@ our $VERSION = '0.02';
 
 Unique id of the node.
 
-Type: C<Str>.
+isa: C<Str>.
 
 =cut
 
@@ -36,26 +36,26 @@ has 'id' => (
 URI object for page. Represents the link found on the web site - before any
 redirections.
 
-Type: L<WWW::Sitemapper::Types/"tURI">.
+isa: L<WWW::Sitemapper::Types/"tURI">.
 
 =cut
 
 has 'uri' => (
     is => 'rw',
-    isa => 'URI',
+    isa => tURI,
     required => 1,
 );
 
 has '_base_uri' => (
     is => 'rw',
-    isa => 'URI',
+    isa => tURI,
 );
 
 =head2 title
 
 Title of page.
 
-Type: C<Str>.
+isa: C<Str>.
 
 =cut
 
@@ -68,7 +68,7 @@ has 'title' => (
 
 Value of Last-modified header.
 
-Type: L<WWW::Sitemapper::Types/"tDateTime">.
+isa: L<WWW::Sitemapper::Types/"tDateTime">.
 
 =cut
 
@@ -83,7 +83,7 @@ has 'last_modified' => (
 An array of all mapped links found on the page - represented by
 L<WWW::Sitemapper::Tree>.
 
-Type: C<ArrayRef[>L<WWW::Sitemapper::Tree>C<]>.
+isa: C<ArrayRef[>L<WWW::Sitemapper::Tree>C<]>.
 
 =cut
 

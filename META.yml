@@ -7,6 +7,7 @@ build_requires:
   HTML::HeadParser: 3.6
   LWP: 5.831
   Moose: 0.98
+  MooseX::MethodAttributes::Inheritable: 0.2
   MooseX::Types: 0.21
   Search::Sitemap: 2.1
   Storable: 2.18
@@ -27,13 +28,13 @@ name: WWW-Sitemapper
 provides:
   WWW::Sitemapper:
     file: lib/WWW/Sitemapper.pm
-    version: 0.02
+    version: 0.03
   WWW::Sitemapper::Tree:
     file: lib/WWW/Sitemapper/Tree.pm
-    version: 0.02
+    version: 0.03
   WWW::Sitemapper::Types:
     file: lib/WWW/Sitemapper/Types.pm
     version: 0.02
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.02
+version: 0.03

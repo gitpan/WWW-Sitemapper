@@ -17,6 +17,7 @@ my $builder = Module::Build->new(
         'Storable' => 2.18,
         'DateTime' => 0.53,
         'MooseX::Types' => 0.21,
+        'MooseX::MethodAttributes::Inheritable' => 0.20, 
         'LWP' => 5.831,
         'HTML::HeadParser' => 3.60,
         'DateTime' => 0.53,

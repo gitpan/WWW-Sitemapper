@@ -2,7 +2,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 106;
+use Test::More tests => 116;
 use Test::NoWarnings;
 use Test::Exception;
 
@@ -12,7 +12,6 @@ use HTTP::Date qw( time2str );
 use DateTime;
 use HTTP::Status qw( HTTP_OK HTTP_NOT_FOUND );
 use HTML::HeadParser;
-
 
 BEGIN {
     use_ok( 'WWW::Sitemapper' );
@@ -65,7 +64,7 @@ BEGIN {
     }
 };
 
-my $d = HTTP::Daemon->new || die;
+my $d = HTTP::Daemon->new( LocalAddr => 'localhost' ) || die;
 my $server_host = $d->url;
 my $is_test;
 my $STATUS_STORAGE_FILE = "t/status.storage";
@@ -443,12 +442,49 @@ if ($is_test = fork ) {
                 '\.pdf$' => 'never',
             },
         )->xml();
-    } "xml_sitemap(priority=>re, changefreq=>re) called successfully";
+    } "xml_sitemap(priority=>{re}, changefreq=>{re}) called successfully";
     do {
         my @opts = $$_->loc =~ /3\d?\.html/ ?
             ( 'always', '0.8' )
             :
             ( 'weekly', '0.5' );
+        my $url = sprintf(
+            '<url>'.
+                '<loc>%s</loc>'.
+                '<lastmod>%s</lastmod>'.
+                '<changefreq>%s</changefreq>'.
+                '<priority>%s</priority>'.
+            '</url>',
+            $$_->loc, $W3C_DATETIME, @opts
+        );
+        like( $xml_sitemap,
+            qr/$url/,
+            "node ". $$_->id ." is correct in XML sitemap"
+        );
+    } for sort { $$a->id cmp $$b->id } $mapper->tree->all_entries;
+
+    lives_ok {
+        $xml_sitemap = $mapper->xml_sitemap(
+            priority => [
+                { '1.html$' => '0.8' },
+                { '^/2'     => '0.2' },
+            ],
+            changefreq => [
+                { '1.html$' => 'always' },
+                { '^/2'     => 'never' },
+            ],
+        )->xml();
+    } "xml_sitemap(priority=>[re], changefreq=>[re]) called successfully";
+    do {
+        my @opts = $$_->loc =~ m{/2} ?
+            ( 'never', '0.2' )
+            :
+            (
+                $$_->loc =~ /1.html$/ ?
+                ( 'always', '0.8' )
+                :
+                ( 'weekly', '0.5' )
+            );
         my $url = sprintf(
             '<url>'.
                 '<loc>%s</loc>'.

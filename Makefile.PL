@@ -9,6 +9,7 @@ WriteMakefile
                            'HTML::HeadParser' => '3.6',
                            'LWP' => '5.831',
                            'Moose' => '0.98',
+                           'MooseX::MethodAttributes::Inheritable' => '0.2',
                            'MooseX::Types' => '0.21',
                            'Search::Sitemap' => '2.1',
                            'Storable' => '2.18',
