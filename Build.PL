@@ -1,32 +1,56 @@
+
 use strict;
 use warnings;
-use Module::Build;
 
-my $builder = Module::Build->new(
-    module_name         => 'WWW::Sitemapper',
-    license             => 'perl',
-    dist_author         => q{Alex J. G. Burzyński <ajgb@cpan.org>},
-    dist_version_from   => 'lib/WWW/Sitemapper.pm',
-    build_requires => {
-        'Test::More' => 0,
-        'Test::NoWarnings' => 0,
-        'Test::Exception' => 0,
-        'Moose' => 0.98,
-        'URI' => 1.37,
-        'WWW::Robot' => 0.026,
-        'Storable' => 2.18,
-        'DateTime' => 0.53,
-        'MooseX::Types' => 0.21,
-        'MooseX::MethodAttributes::Inheritable' => 0.20, 
-        'LWP' => 5.831,
-        'HTML::HeadParser' => 3.60,
-        'DateTime' => 0.53,
-        'Template' => 2.22,
-        'Search::Sitemap' => 2.11,
-    },
-    add_to_cleanup      => [ 'WWW-Sitemapper-*' ],
-    create_makefile_pl => 'traditional',
-    create_licence => 1,
+use Module::Build 0.3601;
+
+
+my %module_build_args = (
+  'build_requires' => {
+    'File::Find' => '0',
+    'File::Temp' => '0',
+    'HTML::HeadParser' => '0',
+    'HTTP::Daemon' => '0',
+    'HTTP::Date' => '0',
+    'HTTP::Response' => '0',
+    'HTTP::Status' => '0',
+    'Module::Build' => '0.3601',
+    'Test::Exception' => '0',
+    'Test::More' => '0',
+    'Test::NoWarnings' => '0'
+  },
+  'configure_requires' => {
+    'ExtUtils::MakeMaker' => '6.31',
+    'Module::Build' => '0.3601'
+  },
+  'dist_abstract' => 'Create text, html and xml sitemap by scanning a web site.',
+  'dist_author' => [
+    'Alex J. G. Burzyński <ajgb@cpan.org>'
+  ],
+  'dist_name' => 'WWW-Sitemapper',
+  'dist_version' => '1.103280',
+  'license' => 'perl',
+  'module_name' => 'WWW::Sitemapper',
+  'recommends' => {},
+  'recursive_test_files' => 1,
+  'requires' => {
+    'DateTime' => '0',
+    'DateTime::Duration' => '0',
+    'Moose' => '0',
+    'MooseX::MethodAttributes::Inheritable' => '0',
+    'MooseX::Types' => '0',
+    'MooseX::Types::Moose' => '0',
+    'Storable' => '0',
+    'Template' => '0',
+    'URI' => '0',
+    'WWW::Robot' => '0',
+    'WWW::Sitemap::XML' => '0',
+    'WWW::Sitemap::XML::URL' => '0'
+  },
+  'script_files' => []
 );
 
-$builder->create_build_script();
+
+my $build = Module::Build->new(%module_build_args);
+
+$build->create_build_script;

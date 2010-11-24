@@ -1,21 +1,17 @@
-
-package WWW::Sitemapper::Types;
-
-=encoding utf8
-
-=head1 NAME
-
-WWW::Sitemapper::Types - types used by L<WWW::Sitemapper>.
-
-=cut
-
 use strict;
 use warnings;
+package WWW::Sitemapper::Types;
+BEGIN {
+  $WWW::Sitemapper::Types::AUTHORITY = 'cpan:AJGB';
+}
+BEGIN {
+  $WWW::Sitemapper::Types::VERSION = '1.103280';
+}
+#ABSTRACT: Types used by L<WWW::Sitemapper>.
+
 use URI;
 use DateTime;
 use DateTime::Duration;
-
-our $VERSION = '0.04';
 
 use MooseX::Types -declare => [qw(
     tURI
@@ -28,6 +24,45 @@ use MooseX::Types::Moose qw(
     Int
     Num
 );
+
+
+
+class_type tURI, { class => 'URI' };
+
+coerce tURI,
+    from Str,
+        via { URI->new( $_, 'http' ) };
+
+
+class_type tDateTime, { class => 'DateTime' };
+
+coerce tDateTime,
+    from Int,
+        via { DateTime->from_epoch( epoch => $_ ) };
+
+
+
+
+class_type tDateTimeDuration, { class => 'DateTime::Duration' };
+
+coerce tDateTimeDuration,
+    from Num,
+        via { DateTime::Duration->new( minutes => $_ ) };
+
+1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+WWW::Sitemapper::Types - Types used by L<WWW::Sitemapper>.
+
+=head1 VERSION
+
+version 1.103280
 
 =head1 SYNOPSIS
 
@@ -47,14 +82,6 @@ L<URI> object.
 
 Coerces from C<Str> via L<URI/new>.
 
-=cut
-
-class_type tURI, { class => 'URI' };
-
-coerce tURI,
-    from Str,
-        via { URI->new( $_, 'http' ) };
-
 =head2 tDateTime
 
     has 'datetime' => (
@@ -66,15 +93,6 @@ coerce tURI,
 L<DateTime> object.
 
 Coerces from C<Int> via L<DateTime>-E<gt>from_epoch( epoch => $_ ).
-
-=cut
-
-class_type tDateTime, { class => 'DateTime' };
-
-coerce tDateTime,
-    from Int,
-        via { DateTime->from_epoch( epoch => $_ ) };
-
 
 =head2 tDateTimeDuration
 
@@ -88,30 +106,26 @@ L<DateTime::Duration> object.
 
 Coerces from C<Num> via L<DateTime::Duration>-E<gt>new( minutes => $_ ).
 
-=cut
+=head1 SEE ALSO
 
+=over 4
 
-class_type tDateTimeDuration, { class => 'DateTime::Duration' };
+=item *
 
-coerce tDateTimeDuration,
-    from Num,
-        via { DateTime::Duration->new( minutes => $_ ) };
+L<WWW::Sitemapper>
 
-
+=back
 
 =head1 AUTHOR
 
-Alex J. G. Burzyński, E<lt>ajgb@cpan.orgE<gt>
+Alex J. G. Burzyński <ajgb@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2010 by Alex J. G. Burzyński
+This software is copyright (c) 2010 by Alex J. G. Burzyński <ajgb@cpan.org>.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.10.0 or,
-at your option, any later version of Perl 5 you may have available.
-
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-1;

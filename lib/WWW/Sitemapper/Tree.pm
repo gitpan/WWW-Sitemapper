@@ -1,28 +1,17 @@
-
+use strict;
+use warnings;
 package WWW::Sitemapper::Tree;
-
-=encoding utf8
-
-=head1 NAME
-
-WWW::Sitemapper::Tree - Tree structure of pages.
-
-=cut
+BEGIN {
+  $WWW::Sitemapper::Tree::AUTHORITY = 'cpan:AJGB';
+}
+BEGIN {
+  $WWW::Sitemapper::Tree::VERSION = '1.103280';
+}
+#ABSTRACT: Tree structure of pages.
 
 use Moose;
 use WWW::Sitemapper::Types qw( tURI tDateTime );
 
-our $VERSION = '0.04';
-
-=head1 ATTRIBUTES
-
-=head2 id
-
-Unique id of the node.
-
-isa: C<Str>.
-
-=cut
 
 has 'id' => (
     is => 'rw',
@@ -31,14 +20,6 @@ has 'id' => (
     default => '0',
 );
 
-=head2 uri
-
-URI object for page. Represents the link found on the web site - before any
-redirections.
-
-isa: L<WWW::Sitemapper::Types/"tURI">.
-
-=cut
 
 has 'uri' => (
     is => 'rw',
@@ -51,26 +32,12 @@ has '_base_uri' => (
     isa => tURI,
 );
 
-=head2 title
-
-Title of page.
-
-isa: C<Str>.
-
-=cut
 
 has 'title' => (
     is => 'rw',
     isa => 'Str',
 );
 
-=head2 last_modified
-
-Value of Last-modified header.
-
-isa: L<WWW::Sitemapper::Types/"tDateTime">.
-
-=cut
 
 has 'last_modified' => (
     is => 'rw',
@@ -78,14 +45,6 @@ has 'last_modified' => (
     coerce => 1,
 );
 
-=head2 nodes
-
-An array of all mapped links found on the page - represented by
-L<WWW::Sitemapper::Tree>.
-
-isa: C<ArrayRef[>L<WWW::Sitemapper::Tree>C<]>.
-
-=cut
 
 has 'nodes' => (
     traits => [qw( Array )],
@@ -121,6 +80,99 @@ has '_redirects' => (
     },
 );
 
+
+
+sub find_node {
+    my $self = shift;
+    my $url = shift;
+
+    if ( my $node = $self->fast_lookup( $url->as_string ) ) {
+        return $$node;
+    }
+    return;
+}
+
+
+sub redirected_from {
+    my $self = shift;
+    my $url = shift;
+
+    if ( my $node = $self->find_redirect( $url->as_string ) ) {
+        return $$node;
+    }
+    return;
+}
+
+
+sub add_node {
+    my $self = shift;
+    my $link = shift;
+
+    $link->id( join(':', $self->id, scalar @{ $self->nodes } ) );
+
+    $self->add_child( $link );
+
+    return $link;
+}
+
+
+sub loc {
+    my $self = shift;
+
+    return $self->_base_uri || $self->uri;
+}
+
+
+
+1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+WWW::Sitemapper::Tree - Tree structure of pages.
+
+=head1 VERSION
+
+version 1.103280
+
+=head1 ATTRIBUTES
+
+=head2 id
+
+Unique id of the node.
+
+isa: C<Str>.
+
+=head2 uri
+
+URI object for page. Represents the link found on the web site - before any
+redirections.
+
+isa: L<WWW::Sitemapper::Types/"tURI">.
+
+=head2 title
+
+Title of page.
+
+isa: C<Str>.
+
+=head2 last_modified
+
+Value of Last-modified header.
+
+isa: L<WWW::Sitemapper::Types/"tDateTime">.
+
+=head2 nodes
+
+An array of all mapped links found on the page - represented by
+L<WWW::Sitemapper::Tree>.
+
+isa: C<ArrayRef[>L<WWW::Sitemapper::Tree>C<]>.
+
 =head1 METHODS
 
 =head2 find_node
@@ -137,18 +189,6 @@ Searches the cache for a node with matching uri.
 
 Note: use it only at the root element L<WWW::Sitemapper/"tree">.
 
-=cut
-
-sub find_node {
-    my $self = shift;
-    my $url = shift;
-
-    if ( my $node = $self->fast_lookup( $url->as_string ) ) {
-        return $$node;
-    }
-    return;
-}
-
 =head2 redirected_from
 
     my $parent = $mapper->tree->redirected_from( $uri );
@@ -156,18 +196,6 @@ sub find_node {
 Searches the redirects cache for a node with matching uri.
 
 Note: use it only at the root element L<WWW::Sitemapper/"tree">.
-
-=cut
-
-sub redirected_from {
-    my $self = shift;
-    my $url = shift;
-
-    if ( my $node = $self->find_redirect( $url->as_string ) ) {
-        return $$node;
-    }
-    return;
-}
 
 =head2 add_node
 
@@ -179,34 +207,12 @@ sub redirected_from {
 
 Adds new node to C<$parent> object and returns child with id set.
 
-=cut
-
-sub add_node {
-    my $self = shift;
-    my $link = shift;
-
-    $link->id( join(':', $self->id, scalar @{ $self->nodes } ) );
-
-    $self->add_child( $link );
-
-    return $link;
-}
-
 =head2 loc
-    
+
     print $node->loc;
 
 Represents the base location of page (which may be different from node
 L<"uri"> if there was a redirection).
-
-=cut
-
-sub loc {
-    my $self = shift;
-
-    return $self->_base_uri || $self->uri;
-}
-
 
 =head2 children
 
@@ -216,20 +222,26 @@ sub loc {
 
 Returns all children of the node.
 
+=head1 SEE ALSO
+
+=over 4
+
+=item *
+
+L<WWW::Sitemapper>
+
+=back
 
 =head1 AUTHOR
 
-Alex J. G. Burzyński, E<lt>ajgb@cpan.orgE<gt>
+Alex J. G. Burzyński <ajgb@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2010 by Alex J. G. Burzyński
+This software is copyright (c) 2010 by Alex J. G. Burzyński <ajgb@cpan.org>.
 
-This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.10.0 or,
-at your option, any later version of Perl 5 you may have available.
-
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
 
 =cut
 
-1;
