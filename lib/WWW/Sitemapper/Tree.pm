@@ -5,7 +5,7 @@ BEGIN {
   $WWW::Sitemapper::Tree::AUTHORITY = 'cpan:AJGB';
 }
 BEGIN {
-  $WWW::Sitemapper::Tree::VERSION = '1.103280';
+  $WWW::Sitemapper::Tree::VERSION = '1.103320';
 }
 #ABSTRACT: Tree structure of pages.
 
@@ -137,7 +137,7 @@ WWW::Sitemapper::Tree - Tree structure of pages.
 
 =head1 VERSION
 
-version 1.103280
+version 1.103320
 
 =head1 ATTRIBUTES
 

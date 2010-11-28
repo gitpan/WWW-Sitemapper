@@ -5,7 +5,7 @@ BEGIN {
   $WWW::Sitemapper::AUTHORITY = 'cpan:AJGB';
 }
 BEGIN {
-  $WWW::Sitemapper::VERSION = '1.103280';
+  $WWW::Sitemapper::VERSION = '1.103320';
 }
 #ABSTRACT: Create text, html and xml sitemap by scanning a web site.
 
@@ -546,7 +546,7 @@ WWW::Sitemapper - Create text, html and xml sitemap by scanning a web site.
 
 =head1 VERSION
 
-version 1.103280
+version 1.103320
 
 =head1 SYNOPSIS
 

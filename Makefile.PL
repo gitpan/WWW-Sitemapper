@@ -46,7 +46,7 @@ my %WriteMakefileArgs = (
     'WWW::Sitemap::XML' => '0',
     'WWW::Sitemap::XML::URL' => '0'
   },
-  'VERSION' => '1.103280',
+  'VERSION' => '1.103320',
   'test' => {
     'TESTS' => 't/*.t'
   }

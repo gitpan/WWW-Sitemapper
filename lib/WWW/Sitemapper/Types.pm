@@ -5,7 +5,7 @@ BEGIN {
   $WWW::Sitemapper::Types::AUTHORITY = 'cpan:AJGB';
 }
 BEGIN {
-  $WWW::Sitemapper::Types::VERSION = '1.103280';
+  $WWW::Sitemapper::Types::VERSION = '1.103320';
 }
 #ABSTRACT: Types used by L<WWW::Sitemapper>.
 
@@ -62,7 +62,7 @@ WWW::Sitemapper::Types - Types used by L<WWW::Sitemapper>.
 
 =head1 VERSION
 
-version 1.103280
+version 1.103320
 
 =head1 SYNOPSIS
 
