@@ -3,7 +3,7 @@ NAME
     site.
 
 VERSION
-    version 1.103320
+    version 1.103360
 
 SYNOPSIS
     WWW::Sitemapper is meant to be subclassed by user:

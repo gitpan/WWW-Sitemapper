@@ -1,8 +1,5 @@
 Revision history for WWW-Sitemapper
 
-1.103320    Sun Nov 28 14:35:24 2010
-            Fix test failures (use of sprint)
-
 1.103280    Wed Nov 24 11:01:35 2010
             Switch to Dist::Zilla
             Drop dependency on Search::Sitemap in favour of WWW::Sitemap::XML.

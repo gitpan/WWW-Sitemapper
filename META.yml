@@ -18,7 +18,7 @@ configure_requires:
   ExtUtils::MakeMaker: 6.31
   Module::Build: 0.3601
 dynamic_config: 0
-generated_by: 'Dist::Zilla version 4.102343, CPAN::Meta::Converter version 2.102400'
+generated_by: 'Dist::Zilla version 4.102345, CPAN::Meta::Converter version 2.102400'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -41,89 +41,89 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=WWW-Sitemapper
   homepage: http://search.cpan.org/dist/WWW-Sitemapper
   repository: git://github.com/ajgb/www-sitemapper.git
-version: 1.103320
+version: 1.103360
 x_Dist_Zilla:
   plugins:
     -
       class: Dist::Zilla::Plugin::GatherDir
       name: '@AJGB/@Basic/GatherDir'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::PruneCruft
       name: '@AJGB/@Basic/PruneCruft'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::ManifestSkip
       name: '@AJGB/@Basic/ManifestSkip'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::MetaYAML
       name: '@AJGB/@Basic/MetaYAML'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::License
       name: '@AJGB/@Basic/License'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::Readme
       name: '@AJGB/@Basic/Readme'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::ExtraTests
       name: '@AJGB/@Basic/ExtraTests'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::ExecDir
       name: '@AJGB/@Basic/ExecDir'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::ShareDir
       name: '@AJGB/@Basic/ShareDir'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::MakeMaker
       name: '@AJGB/@Basic/MakeMaker'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::Manifest
       name: '@AJGB/@Basic/Manifest'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::TestRelease
       name: '@AJGB/@Basic/TestRelease'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::ConfirmRelease
       name: '@AJGB/@Basic/ConfirmRelease'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::UploadToCPAN
       name: '@AJGB/@Basic/UploadToCPAN'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::MetaConfig
       name: '@AJGB/MetaConfig'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::ModuleBuild
       name: '@AJGB/ModuleBuild'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::PodCoverageTests
       name: '@AJGB/PodCoverageTests'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::PodSyntaxTests
       name: '@AJGB/PodSyntaxTests'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::PkgVersion
       name: '@AJGB/PkgVersion'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::MetaJSON
       name: '@AJGB/MetaJSON'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::CheckChangesHasContent
       name: '@AJGB/CheckChangesHasContent'
@@ -163,7 +163,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::AutoVersion
       name: '@AJGB/AutoVersion'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::AutoMetaResources
       name: '@AJGB/AutoMetaResources'
@@ -179,26 +179,26 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::AutoPrereqs
       name: AutoPrereqs
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::FinderCode
       name: ':InstallModules'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::FinderCode
       name: ':TestFiles'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::FinderCode
       name: ':ExecFiles'
-      version: 4.102343
+      version: 4.102345
     -
       class: Dist::Zilla::Plugin::FinderCode
       name: ':ShareFiles'
-      version: 4.102343
+      version: 4.102345
   zilla:
     class: Dist::Zilla::Dist::Builder
     config:
       is_trial: 0
-    version: 4.102343
+    version: 4.102345
 x_authority: cpan:AJGB

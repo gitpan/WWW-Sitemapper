@@ -28,7 +28,7 @@ my %module_build_args = (
     'Alex J. G. Burzyński <ajgb@cpan.org>'
   ],
   'dist_name' => 'WWW-Sitemapper',
-  'dist_version' => '1.103320',
+  'dist_version' => '1.103360',
   'license' => 'perl',
   'module_name' => 'WWW::Sitemapper',
   'recommends' => {},
