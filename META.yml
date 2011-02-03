@@ -41,7 +41,7 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=WWW-Sitemapper
   homepage: http://search.cpan.org/dist/WWW-Sitemapper
   repository: git://github.com/ajgb/www-sitemapper.git
-version: 1.103360
+version: 1.110340
 x_Dist_Zilla:
   plugins:
     -

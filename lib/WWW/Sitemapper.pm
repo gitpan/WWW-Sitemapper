@@ -5,7 +5,7 @@ BEGIN {
   $WWW::Sitemapper::AUTHORITY = 'cpan:AJGB';
 }
 BEGIN {
-  $WWW::Sitemapper::VERSION = '1.103360';
+  $WWW::Sitemapper::VERSION = '1.110340';
 }
 #ABSTRACT: Create text, html and xml sitemap by scanning a web site.
 
@@ -167,10 +167,11 @@ sub run {
             }
         }
         if ( my $hook_name = delete $attrs{Hook} ) {
+            my $method_name = $method->name;
             $self->_robot->addHook(
                 $hook_name,
                 sub {
-                    $method->body->($self, @_),
+                    $self->$method_name(@_);
                 }
             );
         };
@@ -546,7 +547,7 @@ WWW::Sitemapper - Create text, html and xml sitemap by scanning a web site.
 
 =head1 VERSION
 
-version 1.103360
+version 1.110340
 
 =head1 SYNOPSIS
 
