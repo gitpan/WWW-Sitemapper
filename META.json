@@ -4,7 +4,7 @@
       "Alex J. G. Burzy\u00c5\u0084ski <ajgb@cpan.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.102345, CPAN::Meta::Converter version 2.102400",
+   "generated_by" : "Dist::Zilla version 4.300015, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -21,38 +21,45 @@
       },
       "configure" : {
          "requires" : {
-            "ExtUtils::MakeMaker" : "6.31",
+            "ExtUtils::MakeMaker" : "6.30",
             "Module::Build" : "0.3601"
          }
       },
       "runtime" : {
          "requires" : {
-            "DateTime" : 0,
-            "DateTime::Duration" : 0,
-            "Moose" : 0,
-            "MooseX::MethodAttributes::Inheritable" : 0,
-            "MooseX::Types" : 0,
-            "MooseX::Types::Moose" : 0,
-            "Storable" : 0,
-            "Template" : 0,
-            "URI" : 0,
-            "WWW::Robot" : 0,
-            "WWW::Sitemap::XML" : 0,
-            "WWW::Sitemap::XML::URL" : 0
+            "DateTime" : "0",
+            "DateTime::Duration" : "0",
+            "Encode" : "0",
+            "HTML::HeadParser" : "3.40",
+            "HTTP::Message" : "6.0",
+            "LWP" : "6.0",
+            "Moose" : "0",
+            "MooseX::MethodAttributes::Inheritable" : "0",
+            "MooseX::Types" : "0",
+            "MooseX::Types::Moose" : "0",
+            "Storable" : "0",
+            "Template" : "0",
+            "URI" : "0",
+            "WWW::Robot" : "0",
+            "WWW::Sitemap::XML" : "0",
+            "WWW::Sitemap::XML::URL" : "0",
+            "strict" : "0",
+            "warnings" : "0"
          }
       },
       "test" : {
          "requires" : {
-            "File::Find" : 0,
-            "File::Temp" : 0,
-            "HTML::HeadParser" : 0,
-            "HTTP::Daemon" : 0,
-            "HTTP::Date" : 0,
-            "HTTP::Response" : 0,
-            "HTTP::Status" : 0,
-            "Test::Exception" : 0,
-            "Test::More" : 0,
-            "Test::NoWarnings" : 0
+            "File::Find" : "0",
+            "File::Temp" : "0",
+            "HTTP::Daemon" : "0",
+            "HTTP::Date" : "0",
+            "HTTP::Response" : "0",
+            "HTTP::Status" : "0",
+            "Test::Exception" : "0",
+            "Test::More" : "0",
+            "Test::NoWarnings" : "0",
+            "base" : "0",
+            "utf8" : "0"
          }
       }
    },
@@ -66,209 +73,230 @@
       "repository" : {
          "type" : "git",
          "url" : "git://github.com/ajgb/www-sitemapper.git",
-         "web" : "http://github.com/ajgb/www-sitemapper"
+         "web" : "https://github.com/ajgb/www-sitemapper"
       }
    },
-   "version" : "1.110340",
+   "version" : "1.121160",
    "x_Dist_Zilla" : {
       "plugins" : [
          {
             "class" : "Dist::Zilla::Plugin::GatherDir",
-            "name" : "@AJGB/@Basic/GatherDir",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/GatherDir",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::PruneCruft",
-            "name" : "@AJGB/@Basic/PruneCruft",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/PruneCruft",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::ManifestSkip",
-            "name" : "@AJGB/@Basic/ManifestSkip",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/ManifestSkip",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaYAML",
-            "name" : "@AJGB/@Basic/MetaYAML",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/MetaYAML",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::License",
-            "name" : "@AJGB/@Basic/License",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/License",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::Readme",
-            "name" : "@AJGB/@Basic/Readme",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/Readme",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::ExtraTests",
-            "name" : "@AJGB/@Basic/ExtraTests",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/ExtraTests",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::ExecDir",
-            "name" : "@AJGB/@Basic/ExecDir",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/ExecDir",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::ShareDir",
-            "name" : "@AJGB/@Basic/ShareDir",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/ShareDir",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::MakeMaker",
-            "name" : "@AJGB/@Basic/MakeMaker",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/MakeMaker",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::Manifest",
-            "name" : "@AJGB/@Basic/Manifest",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/Manifest",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::TestRelease",
-            "name" : "@AJGB/@Basic/TestRelease",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/TestRelease",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::ConfirmRelease",
-            "name" : "@AJGB/@Basic/ConfirmRelease",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/ConfirmRelease",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::UploadToCPAN",
-            "name" : "@AJGB/@Basic/UploadToCPAN",
-            "version" : "4.102345"
+            "name" : "@Filter/@Basic/UploadToCPAN",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaConfig",
-            "name" : "@AJGB/MetaConfig",
-            "version" : "4.102345"
+            "name" : "@Filter/MetaConfig",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::ModuleBuild",
-            "name" : "@AJGB/ModuleBuild",
-            "version" : "4.102345"
+            "name" : "@Filter/ModuleBuild",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::PodCoverageTests",
-            "name" : "@AJGB/PodCoverageTests",
-            "version" : "4.102345"
+            "name" : "@Filter/PodCoverageTests",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::PodSyntaxTests",
-            "name" : "@AJGB/PodSyntaxTests",
-            "version" : "4.102345"
+            "name" : "@Filter/PodSyntaxTests",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::PkgVersion",
-            "name" : "@AJGB/PkgVersion",
-            "version" : "4.102345"
+            "name" : "@Filter/PkgVersion",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::MetaJSON",
-            "name" : "@AJGB/MetaJSON",
-            "version" : "4.102345"
+            "name" : "@Filter/MetaJSON",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::CheckChangesHasContent",
-            "name" : "@AJGB/CheckChangesHasContent",
-            "version" : "0.003"
+            "name" : "@Filter/CheckChangesHasContent",
+            "version" : "0.005"
          },
          {
             "class" : "Dist::Zilla::Plugin::CheckExtraTests",
-            "name" : "@AJGB/CheckExtraTests",
+            "name" : "@Filter/CheckExtraTests",
             "version" : "0.004"
          },
          {
-            "class" : "Dist::Zilla::Plugin::CompileTests",
-            "name" : "@AJGB/CompileTests",
-            "version" : "1.103030"
-         },
-         {
             "class" : "Dist::Zilla::Plugin::EOLTests",
-            "name" : "@AJGB/EOLTests",
+            "name" : "@Filter/EOLTests",
             "version" : "0.02"
          },
          {
             "class" : "Dist::Zilla::Plugin::NoTabsTests",
-            "name" : "@AJGB/NoTabsTests",
+            "name" : "@Filter/NoTabsTests",
             "version" : "0.01"
          },
          {
             "class" : "Dist::Zilla::Plugin::InstallGuide",
-            "name" : "@AJGB/InstallGuide",
+            "name" : "@Filter/InstallGuide",
             "version" : "1.101461"
          },
          {
             "class" : "Dist::Zilla::Plugin::KwaliteeTests",
-            "name" : "@AJGB/KwaliteeTests",
-            "version" : "1.101420"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::PortabilityTests",
-            "name" : "@AJGB/PortabilityTests",
+            "name" : "@Filter/KwaliteeTests",
             "version" : "1.101420"
          },
          {
             "class" : "Dist::Zilla::Plugin::ReadmeFromPod",
-            "name" : "@AJGB/ReadmeFromPod",
-            "version" : "0.14"
+            "name" : "@Filter/ReadmeFromPod",
+            "version" : "0.16"
          },
          {
             "class" : "Dist::Zilla::Plugin::AutoVersion",
-            "name" : "@AJGB/AutoVersion",
-            "version" : "4.102345"
+            "name" : "@Filter/AutoVersion",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::AutoMetaResources",
-            "name" : "@AJGB/AutoMetaResources",
-            "version" : "1.103080"
+            "name" : "@Filter/AutoMetaResources",
+            "version" : "1.110050"
          },
          {
             "class" : "Dist::Zilla::Plugin::Authority",
-            "name" : "@AJGB/Authority",
-            "version" : "1.000"
+            "name" : "@Filter/Authority",
+            "version" : "1.006"
          },
          {
             "class" : "Dist::Zilla::Plugin::PodWeaver",
-            "name" : "@AJGB/PodWeaver",
+            "name" : "@Filter/PodWeaver",
             "version" : "3.101641"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Prereqs",
+            "config" : {
+               "Dist::Zilla::Plugin::Prereqs" : {
+                  "phase" : "runtime",
+                  "type" : "requires"
+               }
+            },
+            "name" : "Prereqs",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::AutoPrereqs",
             "name" : "AutoPrereqs",
-            "version" : "4.102345"
+            "version" : "4.300015"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Compile",
+            "name" : "Test::Compile",
+            "version" : "1.112820"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Portability",
+            "name" : "Test::Portability",
+            "version" : "2.0.2"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":InstallModules",
-            "version" : "4.102345"
+            "version" : "4.300015"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":IncModules",
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":TestFiles",
-            "version" : "4.102345"
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":ExecFiles",
-            "version" : "4.102345"
+            "version" : "4.300015"
          },
          {
             "class" : "Dist::Zilla::Plugin::FinderCode",
             "name" : ":ShareFiles",
-            "version" : "4.102345"
+            "version" : "4.300015"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::FinderCode",
+            "name" : ":MainModule",
+            "version" : "4.300015"
          }
       ],
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : 0
+            "is_trial" : "0"
          },
-         "version" : "4.102345"
+         "version" : "4.300015"
       }
    },
    "x_authority" : "cpan:AJGB"

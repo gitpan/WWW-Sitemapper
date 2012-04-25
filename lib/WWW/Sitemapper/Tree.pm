@@ -4,8 +4,8 @@ package WWW::Sitemapper::Tree;
 BEGIN {
   $WWW::Sitemapper::Tree::AUTHORITY = 'cpan:AJGB';
 }
-BEGIN {
-  $WWW::Sitemapper::Tree::VERSION = '1.110340';
+{
+  $WWW::Sitemapper::Tree::VERSION = '1.121160';
 }
 #ABSTRACT: Tree structure of pages.
 
@@ -137,7 +137,7 @@ WWW::Sitemapper::Tree - Tree structure of pages.
 
 =head1 VERSION
 
-version 1.110340
+version 1.121160
 
 =head1 ATTRIBUTES
 
@@ -224,11 +224,13 @@ Returns all children of the node.
 
 =head1 SEE ALSO
 
+Please see those modules/websites for more information related to this module.
+
 =over 4
 
 =item *
 
-L<WWW::Sitemapper>
+L<WWW::Sitemapper|WWW::Sitemapper>
 
 =back
 
@@ -238,7 +240,7 @@ Alex J. G. Burzyński <ajgb@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Alex J. G. Burzyński <ajgb@cpan.org>.
+This software is copyright (c) 2012 by Alex J. G. Burzyński <ajgb@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

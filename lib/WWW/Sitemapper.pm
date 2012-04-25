@@ -4,8 +4,8 @@ package WWW::Sitemapper;
 BEGIN {
   $WWW::Sitemapper::AUTHORITY = 'cpan:AJGB';
 }
-BEGIN {
-  $WWW::Sitemapper::VERSION = '1.110340';
+{
+  $WWW::Sitemapper::VERSION = '1.121160';
 }
 #ABSTRACT: Create text, html and xml sitemap by scanning a web site.
 
@@ -19,6 +19,8 @@ use WWW::Robot;
 use WWW::Sitemap::XML;
 use WWW::Sitemap::XML::URL;
 use Storable qw( store retrieve );
+use HTML::HeadParser;
+use Encode ();
 
 BEGIN {
     extends qw( MooseX::MethodAttributes::Inheritable );
@@ -510,12 +512,13 @@ sub _set_page_data : Hook('invoke-after-get') {
 
     if ( my $node = $self->tree->find_node( $url ) ) {
 
-        if ( $response->headers->title ) {
-            # HTTP::Headers decodes the content.
-            my ($title) = $response->content =~ m|<title>(.*?)</title>|is;
-            if ( $title ) {
-                $node->title( $title );
-            }
+        my $hp = HTML::HeadParser->new;
+        $hp->xml_mode(1) if $response->content_is_xhtml;
+        $hp->utf8_mode(1) if $] >= 5.008 && $HTML::Parser::VERSION >= 3.40;
+
+        $hp->parse($response->content);
+        if ( my $title = $hp->header('title') ) {
+            $node->title( Encode::decode($response->content_charset, $title) );
         }
         if ( my $last_modified = $response->headers->last_modified ) {
             $node->last_modified( $last_modified );
@@ -547,7 +550,7 @@ WWW::Sitemapper - Create text, html and xml sitemap by scanning a web site.
 
 =head1 VERSION
 
-version 1.110340
+version 1.121160
 
 =head1 SYNOPSIS
 
@@ -1020,7 +1023,7 @@ Alex J. G. Burzyński <ajgb@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Alex J. G. Burzyński <ajgb@cpan.org>.
+This software is copyright (c) 2012 by Alex J. G. Burzyński <ajgb@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
